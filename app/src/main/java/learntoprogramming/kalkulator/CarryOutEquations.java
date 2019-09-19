@@ -18,6 +18,8 @@ public class CarryOutEquations extends ExpressionConverter {
         char currentSign;
 
         //LABEL FOR LOOP
+
+        //1 stopien wykonywania dzialan
         for (int j = 0; j < holder.operations.size(); j++) {
             currentSign = holder.operations.get(j);
 
@@ -27,7 +29,7 @@ public class CarryOutEquations extends ExpressionConverter {
                 j = carryOutMultiply(j, holder.values, holder.operations);
             }
         }
-
+        //2 stopien wykonywania dzialan
         for (int j = 0; j < holder.operations.size(); j++) {
             currentSign = holder.operations.get(j);
 

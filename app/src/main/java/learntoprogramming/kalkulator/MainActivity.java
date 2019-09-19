@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonClear = findViewById(R.id.clear);
         Button buttonNegative = findViewById(R.id.neg);
 
+        //wyrazenie (string)
         View.OnClickListener valueClickListener = v -> {
             Button b = (Button) v;
 
@@ -115,7 +117,12 @@ public class MainActivity extends AppCompatActivity {
         b8.setOnClickListener(valueClickListener);
         b9.setOnClickListener(valueClickListener);
         buttonDot.setOnClickListener(valueClickListener);
+        buttonDivide.setOnClickListener(valueClickListener);
+        buttonMinus.setOnClickListener(valueClickListener);
+        buttonPlus.setOnClickListener(valueClickListener);
+        buttonMultiply.setOnClickListener(valueClickListener);
 
+        //wyczysc pola
         buttonClear.setOnClickListener(v -> {
             newNumber.setText("");
             result.setText("");
@@ -123,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 //            operandTwo = 0D;
         });
 
+        //negacja
         View.OnClickListener negClickListener = v -> {
             String expression;
 
@@ -139,31 +147,48 @@ public class MainActivity extends AppCompatActivity {
 
         buttonNegative.setOnClickListener(negClickListener);
 
+
+        //znak '=' wykonaj dzialania
         View.OnClickListener operationListener = v -> {
             Button b = (Button) v;
             String operation = b.getText().toString();
-            String value = newNumber.getText().toString();
+            String expression = newNumber.getText().toString();
+
+            pendingOperation = operation;
+            displayOperation.setText(pendingOperation);
+            if (!(expression.equals(""))) {
+                CarryOutEquations c = new CarryOutEquations(expression);
+
+                c.convert();
+                result.setText(c.convert().toString());
+
+            } else {
+                Toast.makeText(this, "Wyrażenie nie może być puste", Toast.LENGTH_LONG).show();
+            }
 
 
+            /*
             try {
                 Double doubleValue = Double.valueOf(value);
                 performOperation(doubleValue, operation);
             } catch (NumberFormatException e) {
                 newNumber.setText("");
-            }
+            }*/
 
-            pendingOperation = operation;
-            displayOperation.setText(pendingOperation); // move down if err
+            if (result.equals("-0.0") || result.equals("-0")) {
+                double tempNeg;
+                tempNeg = Double.valueOf(String.valueOf(result.getText())) * (-1);
+                result.setText(Double.toString(tempNeg));
+            }
+            newNumber.setText("");
+
+            // move down if err
         };
 
         buttonEquals.setOnClickListener(operationListener);
-        buttonPlus.setOnClickListener(operationListener);
-        buttonMinus.setOnClickListener(operationListener);
-        buttonMultiply.setOnClickListener(operationListener);
-        buttonDivide.setOnClickListener(operationListener);
-
     }
 
+/*
     private void performOperation(Double value, String operation) {
         //jezeli wartosc1 jest pusta to przypisz do niej 'value' (Dziala tylko na poczatku potem nadpisujemy tylko value2)
         if (operandOne == null) {
@@ -205,14 +230,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        result.setText(operandOne.toString());
-        if (result.equals("-0.0") || result.equals("-0")) {
-            Double tempNeg = 0D;
-            tempNeg = Double.valueOf(String.valueOf(result.getText())) * (-1);
-            result.setText(tempNeg.toString());
-        }
-        newNumber.setText("");
-
-    }
+    }*/
 
 }
