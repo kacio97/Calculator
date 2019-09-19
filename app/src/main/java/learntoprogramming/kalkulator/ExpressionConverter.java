@@ -1,19 +1,20 @@
 package learntoprogramming.kalkulator;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExpressionConverter {
-
+    private static final String TAG = "ExpressionConverter";
     /**
      * Accumulate data to List<>
      *
      * @param expression Our String input
      */
     public Holder getDataFromExpression(String expression) {
-
+        Log.d(TAG, "getDataFromExpression: STARTS");
         StringBuilder tmp = new StringBuilder();
 
         List<Double> values = new ArrayList<>();
@@ -29,6 +30,7 @@ public class ExpressionConverter {
                     sign == '-' ||
                     sign == '*' ||
                     sign == '/') {
+                Log.d(TAG, "getDataFromExpression: Incorrect sign");
                 if (i == 0)
                     continue;
 
@@ -83,6 +85,7 @@ public class ExpressionConverter {
         if (expression.charAt(0) == '-') {
             values.set(0, values.get(0) * (-1));
         }
+        Log.d(TAG, "getDataFromExpression: ENDS");
         return new Holder(values, operations);
     }
 }

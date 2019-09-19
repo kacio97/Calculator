@@ -1,19 +1,22 @@
 package learntoprogramming.kalkulator;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class CarryOutEquations extends ExpressionConverter {
-
+    private static final String TAG = "CarryOutEquations";
     private ExpressionConverter expressionConverter;
     private String expression;
 
     public CarryOutEquations(String expression) {
+        Log.d(TAG, "CarryOutEquations: Call constructor");
         this.expression = expression;
         expressionConverter = new ExpressionConverter();
     }
 
     public Double convert() {
-
+        Log.d(TAG, "CarryOutEquations convert: STARTS");
         Holder holder = expressionConverter.getDataFromExpression(expression);
         char currentSign;
 
@@ -39,7 +42,7 @@ public class CarryOutEquations extends ExpressionConverter {
                 j = carryOutSubtract(j, holder.values, holder.operations);
             }
         }
-
+        Log.d(TAG, "CarryOutEquations convert: Result is " + holder.values.get(0).toString());
         return holder.values.get(0);
     }
 
@@ -52,10 +55,12 @@ public class CarryOutEquations extends ExpressionConverter {
      * @return new index for loop
      */
     private int carryOutSubtract(int index, List<Double> values, List<Character> operations) {
+        Log.d(TAG, "carryOutSubtract: params " + index + " " + values.get(index) + " " + values.get(index + 1));
         operations.remove(index);
         values.set(index, (values.get(index) - values.get(index + 1)));
         values.remove(index + 1);
         index -= 1;
+        Log.d(TAG, "carryOutSubtract: index " + index);
         return index;
     }
 
@@ -68,10 +73,13 @@ public class CarryOutEquations extends ExpressionConverter {
      * @return new index for loop
      */
     private int carryOutAdding(int index, List<Double> values, List<Character> operations) {
+        Log.d(TAG, "carryOutSubtract: params " + index + " " + values.get(index) + " " + values.get(index + 1));
         operations.remove(index);
         values.set(index, (values.get(index) + values.get(index + 1)));
         values.remove(index + 1);
         index -= 1;
+        Log.d(TAG, "carryOutSubtract: index " + index);
+
         return index;
     }
 
@@ -84,10 +92,13 @@ public class CarryOutEquations extends ExpressionConverter {
      * @return new index for loop
      */
     private int carryOutMultiply(int index, List<Double> values, List<Character> operations) {
+        Log.d(TAG, "carryOutSubtract: params " + index + " " + values.get(index) + " " + values.get(index + 1));
         operations.remove(index);
         values.set(index, (values.get(index) * values.get(index + 1)));
         values.remove(index + 1);
         index -= 1;
+        Log.d(TAG, "carryOutSubtract: index " + index);
+
         return index;
     }
 
@@ -100,10 +111,13 @@ public class CarryOutEquations extends ExpressionConverter {
      * @return new index for loop
      */
     private int carryOutDivide(int index, List<Double> values, List<Character> operations) {
+        Log.d(TAG, "carryOutSubtract: params " + index + " " + values.get(index) + " " + values.get(index + 1));
         operations.remove(index);
         values.set(index, (values.get(index) / values.get(index + 1)));
         values.remove(index + 1);
         index -= 1;
+        Log.d(TAG, "carryOutSubtract: index " + index);
+
         return index;
     }
 }

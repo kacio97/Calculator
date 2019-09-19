@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     private EditText result;
     private EditText newNumber;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: SAVING STATE");
         outState.putString(OPERATION_CONTENT, pendingOperation);
         outState.putDouble(VALUE_CONTENT, operandOne);
     }
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState: RESTORE STATE");
         operandOne = savedInstanceState.getDouble(VALUE_CONTENT);
         pendingOperation = savedInstanceState.getString(OPERATION_CONTENT);
     }
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(TAG, "onCreate: STARTS");
         result = findViewById(R.id.result); // wynik
         newNumber = findViewById(R.id.newNumber); // pole gdzie wykonują się operacje (wyświetl)
         displayOperation = findViewById(R.id.operation);
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             Button b = (Button) v;
 
             newNumber.append(b.getText().toString());
-
+            Log.d(TAG, "ValueClickListener onCreate: set values" + newNumber.toString());
         };
 
         b0.setOnClickListener(valueClickListener);
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             newNumber.setText("");
             result.setText("");
             operandOne = 0D;
+            Log.d(TAG, "Clear onCreate: Clearing all setup");
 //            operandTwo = 0D;
         });
 
@@ -142,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             }
             newNumber.setText(negativeDouble.toString());
             negativeDouble = 0D;
+            Log.d(TAG, "negClickListener onCreate: Neg value is " + newNumber.toString());
 
         };
 
@@ -156,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
             pendingOperation = operation;
             displayOperation.setText(pendingOperation);
+            Log.d(TAG, "Express onCreate: Processing data " + expression);
+
             if (!(expression.equals(""))) {
                 CarryOutEquations c = new CarryOutEquations(expression);
 
